@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Zostań moją Walentynką 💘</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #c24f4f, #8f0909);
+    }
+
+    .container {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 22px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+        z-index: 2;
+    }
+
+    h1 {
+        color: #e6005c;
+        font-size: 32px;
+        margin-bottom: 30px;
+    }
+
+    button {
+        padding: 15px 38px;
+        font-size: 18px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        margin: 10px;
+        transition: transform 0.2s, background 0.3s;
+    }
+
+    #yesBtn {
+        background-color: #ff3366;
+        color: white;
+    }
+
+    #yesBtn:hover {
+        background-color: #e6005c;
+        transform: scale(1.05);
+    }
+
+    #noBtn {
+        background-color: #ddd;
+        color: #333;
+        position: absolute;
+    }
+
+    .message {
+        display: none;
+        margin-top: 30px;
+        color: #e6005c;
+        font-size: 22px;
+    }
+
+    .fade-out {
+        opacity: 0;
+        transform: scale(0.95);
+        pointer-events: none;
+    }
+
+    .fade-in {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* GIF area */
+    .gif-box {
+        margin-bottom: 25px;
+    }
+
+    .gif-box img {
+        width: 230px;
+        max-width: 100%;
+        border-radius: 18px;
+    }
+
+    /* Floating hearts */
+    .heart {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        background: red;
+        transform: rotate(45deg);
+        animation: floatUp linear infinite;
+        opacity: 0.8;
+        z-index: 1;
+    }
+
+    .heart::before,
+    .heart::after {
+        content: '';
+        width: 18px;
+        height: 18px;
+        background: red;
+        border-radius: 50%;
+        position: absolute;
+    }
+
+    .heart::before {
+        top: -9px;
+        left: 0;
+    }
+
+    .heart::after {
+        left: -9px;
+        top: 0;
+    }
+
+    @keyframes floatUp {
+        from {
+            transform: translateY(100vh) rotate(45deg);
+        }
+        to {
+            transform: translateY(-10vh) rotate(45deg);
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container" id="mainContent">
+    <h1>Czy zostaniesz jutro moją walentynką? 💖</h1>
+    <button id="yesBtn">TAK 💗</button>
+    <button id="noBtn">NIE ❌</button>
+</div>
+
+<div class="container message fade-out" id="yesMessage">
+    <div class="gif-box">
+        <img src="giphy.gif" alt="Love GIF">
+    </div>
+
+    <p>💕 Wiedziałem że się zgodzisz 💕</p>
+    <p><b>Widzimy się jutro u mnie</b></p>
+    <p>⏰ Godzina:<b>18:15</b></p>
+    <p>❤️❤️❤️</p>
+</div>
+
+<script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const mainContent = document.getElementById('mainContent');
+    const yesMessage = document.getElementById('yesMessage');
+    const bgMusic = document.getElementById('bgMusic');
+
+    noBtn.addEventListener('mouseover', () => {
+        const x = Math.random() * (window.innerWidth - 120);
+        const y = Math.random() * (window.innerHeight - 60);
+        noBtn.style.left = x + 'px';
+        noBtn.style.top = y + 'px';
+    });
+
+    function createHearts() {
+        for (let i = 0; i < 30; i++) {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+            heart.style.opacity = Math.random();
+            document.body.appendChild(heart);
+        }
+    }
+
+    function startVibration() {
+        if (navigator.vibrate) {
+            navigator.vibrate(200);
+        }
+    }
+
+    yesBtn.addEventListener('click', () => {
+        mainContent.classList.add('fade-out');
+
+        setTimeout(() => {
+            mainContent.style.display = 'none';
+            yesMessage.style.display = 'block';
+            yesMessage.classList.remove('fade-out');
+            yesMessage.classList.add('fade-in');
+
+            createHearts();
+            startMusic();
+            startVibration();
+        }, 800);
+    });
+
+    function moveNoButton() {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+}
+
+noBtn.addEventListener('mouseover', moveNoButton);
+
+noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    moveNoButton();
+});
+</script>
+
+</body>
+</html>
